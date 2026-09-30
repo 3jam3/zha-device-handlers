@@ -1,8 +1,10 @@
 """Sonoff SNZB-03P – stable ZHA quirk (practical version)."""
 
-from zigpy.quirks import CustomCluster
-from zigpy.quirks.v2 import EntityPlatform, EntityType, NumberDeviceClass, QuirkBuilder
-from zigpy.quirks.v2.homeassistant import UnitOfTime
+from zhaquirks.clusters import CustomCluster
+from zha.application import EntityPlatform, EntityType
+from zhaquirks.builder import QuirkBuilder
+from zha.application.platforms.number.device_class import NumberDeviceClass
+from zhaquirks.builder import UnitOfTime
 import zigpy.types as t
 from zigpy.zcl.clusters.measurement import OccupancySensing
 from zigpy.zcl.clusters.security import IasZone
@@ -32,8 +34,8 @@ class SonoffIlluminationCluster(CustomCluster):
         last_illumination_state = ZCLAttributeDef(
             id=0x2001,
             type=LastIlluminationState,
-            access="rp",
-            is_manufacturer_specific=True,
+            access="p",
+            is_manufacturer_specific=False,
         )
 
 
@@ -68,6 +70,5 @@ class SonoffIlluminationCluster(CustomCluster):
         entity_type=EntityType.STANDARD,
         translation_key="illumination",
         fallback_name="Illumination",
-    )
-    .add_to_registry()
+    ).add_to_registry()
 )
